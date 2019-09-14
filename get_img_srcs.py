@@ -18,6 +18,13 @@ class MyHTMLParser(HTMLParser):
     def handle_entityref(self, name):
         c = chr(name2codepoint[name])
 
+    def handle_charref(self, name):
+        if name.startswith('x'):
+            c = chr(int(name[1:], 16))
+        else:
+            c = chr(int(name))
+        print("Num ent  :", c)
+
 def fix_url(src, root_url):
     if(src[0:4] != 'http'):
         if(src[0:2] == '//'):
