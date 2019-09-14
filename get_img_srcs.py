@@ -17,16 +17,6 @@ class MyHTMLParser(HTMLParser):
                 if(attr[0] == 'src'):
                     self.srcs.add(attr[1])
 
-    def handle_entityref(self, name):
-        c = chr(name2codepoint[name])
-
-    def handle_charref(self, name):
-        if name.startswith('x'):
-            c = chr(int(name[1:], 16))
-        else:
-            c = chr(int(name))
-        print("Num ent  :", c)
-
 def fix_url(src, root_url):
     if(src[0:4] != 'http'):
         if(src[0:2] == '//'):
@@ -62,8 +52,12 @@ def get_img_srcs(url):
 
     site.close()
 
+<<<<<<< HEAD
     return srcs_with_fixed
 
 if __name__ == "__main__":
     srcs = get_img_srcs('https://jccsst-random.blogspot.com/search?updated-max=2019-05-27T19:50:00-04:00&max-results=10')
     print(srcs)
+=======
+    return srcs_with_fixed
+>>>>>>> 76351eb04ed6fb14c3b341bfe846919e09d2e551
