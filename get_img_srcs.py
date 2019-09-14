@@ -49,7 +49,3 @@ def get_img_srcs(url):
     site.close()
 
     return srcs_with_fixed
-
-
-srcs = get_img_srcs('https://jccsst-random.blogspot.com/search?updated-max=2019-05-27T19:50:00-04:00&max-results=10')
-print(srcs)
