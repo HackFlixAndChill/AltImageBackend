@@ -3,6 +3,21 @@ from urllib.parse import urlparse
 from html.parser import HTMLParser
 from html.entities import name2codepoint
 
+class MyHTMLParser(HTMLParser):
+    def __init__(self, root_url):
+        HTMLParser.__init__(self)
+        self.srcs = set()
+        self.root_url = root_url
+
+    def handle_starttag(self, tag, attrs):
+        if(tag == 'img'):
+            for attr in attrs:
+                if(attr[0] == 'src'):
+                    self.srcs.add(attr[1])
+
+    def handle_entityref(self, name):
+        c = chr(name2codepoint[name])
+
 def fix_url(src, root_url):
     if(src[0:4] != 'http'):
         if(src[0:2] == '//'):
@@ -16,18 +31,6 @@ def fix_url(src, root_url):
     
     return src
 
-class MyHTMLParser(HTMLParser):
-    def __init__(self, root_url):
-        HTMLParser.__init__(self)
-        self.srcs = set()
-        self.root_url = root_url
-
-    def handle_starttag(self, tag, attrs):
-        if(tag == 'img'):
-            for attr in attrs:
-                if(attr[0] == 'src'):
-                    self.srcs.add(fix_url(attr[1], self.root_url))
-
 def get_img_srcs(url):
     site = urllib.request.urlopen(url)
     site_bytes = site.read()
@@ -40,6 +43,16 @@ def get_img_srcs(url):
     html_parser.feed(site_str)
     srcs = html_parser.srcs
 
+    # Original URL first, fixed one second
+    srcs_with_fixed = {}
+    for src in srcs:
+        fixed_src = fix_url(src, root_url)
+        srcs_with_fixed.update({src: fixed_src})
+
     site.close()
 
-    return srcs
+    return srcs_with_fixed
+
+
+srcs = get_img_srcs('https://jccsst-random.blogspot.com/search?updated-max=2019-05-27T19:50:00-04:00&max-results=10')
+print(srcs)
