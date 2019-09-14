@@ -52,12 +52,8 @@ def get_img_srcs(url):
 
     site.close()
 
-<<<<<<< HEAD
     return srcs_with_fixed
 
 if __name__ == "__main__":
     srcs = get_img_srcs('https://jccsst-random.blogspot.com/search?updated-max=2019-05-27T19:50:00-04:00&max-results=10')
     print(srcs)
-=======
-    return srcs_with_fixed
->>>>>>> 76351eb04ed6fb14c3b341bfe846919e09d2e551
