@@ -5,20 +5,18 @@ from html.entities import name2codepoint
 
 def fix_url(src, root_url):
     if(src[0:4] != 'http'):
-
         if(src[0:2] == '//'):
             return 'https:' + src
 
         elif(src[0:5] == 'data:'):
             return src
-            
+
         else:
             return root_url + src
     
     return src
 
 class MyHTMLParser(HTMLParser):
-
     def __init__(self, root_url):
         HTMLParser.__init__(self)
         self.srcs = set()
@@ -45,5 +43,3 @@ def get_img_srcs(url):
     site.close()
 
     return srcs
-
-get_img_srcs('https://jccsst-random.blogspot.com/search?updated-max=2019-05-27T19:50:00-04:00&max-results=10')
