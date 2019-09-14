@@ -3,6 +3,8 @@ from urllib.parse import urlparse
 from html.parser import HTMLParser
 from html.entities import name2codepoint
 
+USER_AGENT = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
+
 class MyHTMLParser(HTMLParser):
     def __init__(self, root_url):
         HTMLParser.__init__(self)
@@ -39,7 +41,9 @@ def fix_url(src, root_url):
     return src
 
 def get_img_srcs(url):
-    site = urllib.request.urlopen(url)
+    req = urllib.request.Request('https://moz.com/learn/seo/alt-text')
+    req.add_header('User-Agent', USER_AGENT)
+    site = urllib.request.urlopen(req)
     site_bytes = site.read()
     site_str = site_bytes.decode('ANSI')
 
@@ -60,6 +64,6 @@ def get_img_srcs(url):
 
     return srcs_with_fixed
 
-
-srcs = get_img_srcs('https://jccsst-random.blogspot.com/search?updated-max=2019-05-27T19:50:00-04:00&max-results=10')
-print(srcs)
+if __name__ == "__main__":
+    srcs = get_img_srcs('https://jccsst-random.blogspot.com/search?updated-max=2019-05-27T19:50:00-04:00&max-results=10')
+    print(srcs)
