@@ -31,11 +31,11 @@ def fix_url(src, root_url):
     return src
 
 def get_img_srcs(url):
-    req = urllib.request.Request('https://moz.com/learn/seo/alt-text')
+    req = urllib.request.Request(url)
     req.add_header('User-Agent', USER_AGENT)
     site = urllib.request.urlopen(req)
     site_bytes = site.read()
-    site_str = site_bytes.decode('ANSI')
+    site_str = site_bytes.decode('UTF-8')
 
     parsed_url = urlparse(url)
     root_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
