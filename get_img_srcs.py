@@ -22,8 +22,8 @@ class MyHTMLParser(HTMLParser):
                 elif attr[0] == 'alt':
                     alt = attr[1]
                     
-                if alt == '':
-                    self.srcs.add(src)
+            if alt == '':
+                self.srcs.add(src)
 
 def fix_url(src, root_url):
     if(src[0:4] != 'http'):
@@ -61,3 +61,6 @@ def get_img_srcs(url):
     site.close()
 
     return srcs_with_fixed
+
+srcs = get_img_srcs('https://moz.com/learn/seo/alt-text')
+# print(srcs)
