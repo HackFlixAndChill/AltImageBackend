@@ -1,5 +1,5 @@
 import urllib.request
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 from html.parser import HTMLParser
 from html.entities import name2codepoint
 
@@ -12,23 +12,26 @@ class MyHTMLParser(HTMLParser):
         self.root_url = root_url
 
     def handle_starttag(self, tag, attrs):
+        src = ''
+        alt = ''
+        
         if tag == 'img':
             for attr in attrs:
-                if attr[0] == 'src' and attr[1] != "":
-                    self.srcs.add(attr[1])
+                if attr[0] == 'src':
+                    src = attr[1]
+                elif attr[0] == 'alt':
+                    alt = attr[1]
+                    
+            if alt == '':
+                self.srcs.add(src)
 
 def fix_url(src, root_url):
-    if(src[0:4] != 'http'):
-        if(src[0:2] == '//'):
-            return 'https:' + src
+    abspath = urljoin(root_url, src)
 
-        elif(src[0:5] == 'data:'):
-            return src
-
-        else:
-            return root_url + src
-    
-    return src
+    if src[0:5] == 'data:':
+        return src
+    else:    
+        return abspath
 
 def get_img_srcs(url):
     req = urllib.request.Request(url)
@@ -47,8 +50,8 @@ def get_img_srcs(url):
     # Original URL first, fixed one second
     srcs_with_fixed = {}
     for src in srcs:
-        fixed_src = fix_url(src, root_url)
-        srcs_with_fixed.update({src: fixed_src})
+        fixed_src = fix_url(src, url)
+        srcs_with_fixed.update({fixed_src: fixed_src})
 
     site.close()
 
