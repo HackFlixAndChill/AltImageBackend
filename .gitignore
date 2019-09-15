@@ -2,4 +2,9 @@ __pycache__*
 ms_vision_key.txt
 findImages - dont use.py
 urltest.py
+<<<<<<< HEAD
 testing.py
+=======
+credentials.sh
+.vscode
+>>>>>>> 62761a59433dd069500f5a64ca18feb7d2bf638f
