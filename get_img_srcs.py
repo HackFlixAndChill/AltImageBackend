@@ -1,5 +1,5 @@
 import urllib.request
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 from html.parser import HTMLParser
 from html.entities import name2codepoint
 
@@ -26,17 +26,12 @@ class MyHTMLParser(HTMLParser):
                 self.srcs.add(src)
 
 def fix_url(src, root_url):
-    if(src[0:4] != 'http'):
-        if(src[0:2] == '//'):
-            return 'https:' + src
+    abspath = urljoin(root_url, src)
 
-        elif(src[0:5] == 'data:'):
-            return src
-
-        else:
-            return root_url + src
-    
-    return src
+    if src[0:5] == 'data:':
+        return src
+    else:    
+        return abspath
 
 def get_img_srcs(url):
     req = urllib.request.Request(url)
@@ -48,7 +43,7 @@ def get_img_srcs(url):
     parsed_url = urlparse(url)
     root_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
 
-    html_parser = MyHTMLParser(root_url)
+    html_parser = MyHTMLParser(url)
     html_parser.feed(site_str)
     srcs = html_parser.srcs
 
@@ -62,5 +57,6 @@ def get_img_srcs(url):
 
     return srcs_with_fixed
 
-srcs = get_img_srcs('https://moz.com/learn/seo/alt-text')
-# print(srcs)
+if __name__ == "__main__":
+    srcs = get_img_srcs('https://jccsst-random.blogspot.com/search?updated-max=2019-05-27T19:50:00-04:00&max-results=10')
+    print(srcs)
