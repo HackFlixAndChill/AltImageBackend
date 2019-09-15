@@ -15,9 +15,12 @@ def lambda_handler(event, context):
     website_url = getURL(event)
     print("Website URL: ", website_url)
     
+    alt_tags = all_alt_tags(website_url)
+    print("ALL ALT TAGS: ", alt_tags)
+    
     return {
         'statusCode': 200,
-        'body': {
-            'alt_img_tags': all_alt_tags(website_url)
-         }
+        'body': json.dumps({
+            'alt_img_tags': alt_tags
+         })
     }
