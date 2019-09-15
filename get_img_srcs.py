@@ -14,7 +14,7 @@ class MyHTMLParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if(tag == 'img'):
             for attr in attrs:
-                if(attr[0] == 'src'):
+                if(attr[0] == 'src' and attr[1] != ''):
                     self.srcs.add(attr[1])
 
 def fix_url(src, root_url):
