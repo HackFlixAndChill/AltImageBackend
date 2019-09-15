@@ -51,7 +51,10 @@ def get_img_srcs(url):
     srcs_with_fixed = {}
     for src in srcs:
         fixed_src = fix_url(src, root_url)
-        srcs_with_fixed.update({src: fixed_src})
+
+        # Don't worry that the keys and values are identical.
+        # It works this way.
+        srcs_with_fixed.update({fixed_src: fixed_src})
 
     site.close()
 
