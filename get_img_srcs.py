@@ -12,9 +12,9 @@ class MyHTMLParser(HTMLParser):
         self.root_url = root_url
 
     def handle_starttag(self, tag, attrs):
-        if(tag == 'img'):
+        if tag == 'img':
             for attr in attrs:
-                if(attr[0] == 'src' and attr[1] != ''):
+                if attr[0] == 'src' and attr[1] != "":
                     self.srcs.add(attr[1])
 
 def fix_url(src, root_url):
@@ -31,11 +31,11 @@ def fix_url(src, root_url):
     return src
 
 def get_img_srcs(url):
-    req = urllib.request.Request('https://moz.com/learn/seo/alt-text')
+    req = urllib.request.Request(url)
     req.add_header('User-Agent', USER_AGENT)
     site = urllib.request.urlopen(req)
     site_bytes = site.read()
-    site_str = site_bytes.decode('ANSI')
+    site_str = site_bytes.decode('UTF-8')
 
     parsed_url = urlparse(url)
     root_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
@@ -53,7 +53,3 @@ def get_img_srcs(url):
     site.close()
 
     return srcs_with_fixed
-
-if __name__ == "__main__":
-    srcs = get_img_srcs('https://jccsst-random.blogspot.com/search?updated-max=2019-05-27T19:50:00-04:00&max-results=10')
-    print(srcs)
