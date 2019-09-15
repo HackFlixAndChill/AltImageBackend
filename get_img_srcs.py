@@ -12,10 +12,18 @@ class MyHTMLParser(HTMLParser):
         self.root_url = root_url
 
     def handle_starttag(self, tag, attrs):
+        src = ''
+        alt = ''
+        
         if tag == 'img':
             for attr in attrs:
-                if attr[0] == 'src' and attr[1] != "":
-                    self.srcs.add(attr[1])
+                if attr[0] == 'src':
+                    src = attr[1]
+                elif attr[0] == 'alt':
+                    alt = attr[1]
+                    
+                if alt == '':
+                    self.srcs.add(src)
 
 def fix_url(src, root_url):
     if(src[0:4] != 'http'):
