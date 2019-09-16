@@ -1,7 +1,7 @@
 # Web Accessibility Backend
 
 ## Description
-Sitting behind an AWS API Gateway, our Lambda function accepts a URL and returns a dictionary of the alt texts for all of the images at the given URL.
+Our backend accepts a URL and returns a dictionary of the alt texts for all of the images at the given URL.
 
 ## Architecture
 ![technology stack diagram of our web accessibility technology including services like AWS and Azure](/techstack.jpg)
